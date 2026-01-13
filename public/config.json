@@ -8,57 +8,45 @@
   "lang": {
     "en-US": {
       "name": "Daytime Window Check",
-      "description": "Validates whether contact is within allowed daytime sending window."
+      "description": "Checks whether a contact is within allowed daytime sending window."
     }
   },
+
   "arguments": {
     "execute": {
       "inArguments": [
-        { "country": "{{Event.EventKey.Country}}" }
+        { "country": "" }
+      ],
+      "outArguments": [
+        { "isWithinWindow": false },
+        { "currentHour": 0 }
       ],
       "url": "https://customactivity003-production.up.railway.app/activity/execute",
       "verb": "POST",
       "format": "json",
       "useJwt": true,
       "timeout": 30000,
-      "retryCount": 5,
+      "retryCount": 3,
       "retryDelay": 1000,
-      "concurrentRequests": 8
+      "concurrentRequests": 5
     }
   },
+
   "configurationArguments": {
-    "save": {
-      "url": "https://customactivity003-production.up.railway.app/activity/save",
-      "verb": "POST",
-      "format": "json",
-      "useJwt": true
-    },
-    "publish": {
-      "url": "https://customactivity003-production.up.railway.app/activity/publish",
-      "verb": "POST",
-      "format": "json",
-      "useJwt": true
-    },
-    "validate": {
-      "url": "https://customactivity003-production.up.railway.app/activity/validate",
-      "verb": "POST",
-      "format": "json",
-      "useJwt": true
-    },
-    "stop": {
-      "url": "https://customactivity003-production.up.railway.app/activity/stop",
-      "verb": "POST",
-      "format": "json",
-      "useJwt": true
-    }
+    "save": { "url": "https://customactivity003-production.up.railway.app/activity/save", "useJwt": true },
+    "publish": { "url": "https://customactivity003-production.up.railway.app/activity/publish", "useJwt": true },
+    "validate": { "url": "https://customactivity003-production.up.railway.app/activity/validate", "useJwt": true },
+    "stop": { "url": "https://customactivity003-production.up.railway.app/activity/stop", "useJwt": true }
   },
+
   "userInterfaces": {
     "configModal": {
       "url": "https://customactivity003-production.up.railway.app/index.html",
-      "height": 500,
-      "width": 500
+      "height": 450,
+      "width": 450
     }
   },
+
   "schema": {
     "arguments": {
       "execute": {
@@ -75,12 +63,14 @@
           {
             "isWithinWindow": {
               "dataType": "Boolean",
+              "isNullable": false,
               "direction": "out"
             }
           },
           {
             "currentHour": {
               "dataType": "Number",
+              "isNullable": false,
               "direction": "out"
             }
           }
