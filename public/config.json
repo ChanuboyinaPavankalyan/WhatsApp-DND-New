@@ -16,8 +16,8 @@
   "arguments": {
     "execute": {
       "inArguments": [
-        { "country": "" }
-      ],
+  { "country": "{{Event.Country}}" }
+],
       "outArguments": [
         { "isWithinWindow": "" },
         { "currentHour": "" }
@@ -98,3 +98,4 @@
     }
   }
 }
+
