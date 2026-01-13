@@ -5,10 +5,11 @@
     "category": "custom"
   },
   "type": "REST",
+
   "lang": {
     "en-US": {
       "name": "Daytime Window Check",
-      "description": "Checks whether a contact is within allowed daytime sending window."
+      "description": "Validates daytime sending window by country"
     }
   },
 
@@ -18,25 +19,43 @@
         { "country": "" }
       ],
       "outArguments": [
-        { "isWithinWindow": false },
-        { "currentHour": 0 }
+        { "isWithinWindow": "" },
+        { "currentHour": "" }
       ],
       "url": "https://customactivity003-production.up.railway.app/activity/execute",
       "verb": "POST",
+      "body": "",
+      "header": "",
       "format": "json",
       "useJwt": true,
-      "timeout": 30000,
+      "timeout": 20000,
       "retryCount": 3,
       "retryDelay": 1000,
-      "concurrentRequests": 5
+      "concurrentRequests": 6
     }
   },
 
   "configurationArguments": {
-    "save": { "url": "https://customactivity003-production.up.railway.app/activity/save", "useJwt": true },
-    "publish": { "url": "https://customactivity003-production.up.railway.app/activity/publish", "useJwt": true },
-    "validate": { "url": "https://customactivity003-production.up.railway.app/activity/validate", "useJwt": true },
-    "stop": { "url": "https://customactivity003-production.up.railway.app/activity/stop", "useJwt": true }
+    "save": {
+      "url": "https://customactivity003-production.up.railway.app/activity/save",
+      "format": "json",
+      "useJwt": true
+    },
+    "publish": {
+      "url": "https://customactivity003-production.up.railway.app/activity/publish",
+      "format": "json",
+      "useJwt": true
+    },
+    "validate": {
+      "url": "https://customactivity003-production.up.railway.app/activity/validate",
+      "format": "json",
+      "useJwt": true
+    },
+    "stop": {
+      "url": "https://customactivity003-production.up.railway.app/activity/stop",
+      "format": "json",
+      "useJwt": true
+    }
   },
 
   "userInterfaces": {
