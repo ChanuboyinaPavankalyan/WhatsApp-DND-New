@@ -2,7 +2,7 @@
   "workflowApiVersion": "1.1",
   "type": "REST",
   "metaData": {
-    "icon": "https://customactivity003-production.up.railway.app/icon.png",
+    "icon": "https://daytime-window-check.vercel.app/icon.png",
     "category": "custom"
   },
   "applicationExtensionKey": "aethereus.daytime.window.check",
@@ -30,7 +30,7 @@
           "currentHour": ""
         }
       ],
-      "url": "https://customactivity003-production.up.railway.app/activity/execute",
+      "url": "https://daytime-window-check.vercel.app/activity/execute",
       "verb": "POST",
       "format": "json",
       "useJwt": true,
@@ -42,25 +42,25 @@
   },
   "configurationArguments": {
     "save": {
-      "url": "https://customactivity003-production.up.railway.app/activity/save",
+      "url": "https://daytime-window-check.vercel.app/activity/save",
       "verb": "POST",
       "format": "json",
       "useJwt": true
     },
     "publish": {
-      "url": "https://customactivity003-production.up.railway.app/activity/publish",
+      "url": "https://daytime-window-check.vercel.app/activity/publish",
       "verb": "POST",
       "format": "json",
       "useJwt": true
     },
     "validate": {
-      "url": "https://customactivity003-production.up.railway.app/activity/validate",
+      "url": "https://daytime-window-check.vercel.app//activity/validate",
       "verb": "POST",
       "format": "json",
       "useJwt": true
     },
     "stop": {
-      "url": "https://customactivity003-production.up.railway.app/activity/stop",
+      "url": "https://daytime-window-check.vercel.app/activity/stop",
       "verb": "POST",
       "format": "json",
       "useJwt": true
@@ -68,7 +68,7 @@
   },
   "userInterfaces": {
     "configModal": {
-      "url": "https://customactivity003-production.up.railway.app/index.html",
+      "url": "https://daytime-window-check.vercel.app/index.html",
       "height": 600,
       "width": 600
     }
@@ -103,4 +103,5 @@
       }
     }
   }
+
 }
