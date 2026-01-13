@@ -14,7 +14,11 @@
   "arguments": {
     "execute": {
       "inArguments": [
-        { "country": "{{Event.Country}}" }
+        { "country": "" }
+      ],
+      "outArguments": [
+        { "isWithinWindow": "" },
+        { "currentHour": "" }
       ],
       "url": "https://customactivity003-production.up.railway.app/activity/execute",
       "verb": "POST",
@@ -74,13 +78,15 @@
         "outArguments": [
           {
             "isWithinWindow": {
-              "dataType": "Boolean",
+               "dataType": "Boolean",
+              "isNullable": false,
               "direction": "out"
             }
           },
           {
             "currentHour": {
-              "dataType": "Number",
+               "dataType": "Number",
+              "isNullable": false,
               "direction": "out"
             }
           }
@@ -89,3 +95,4 @@
     }
   }
 }
+
