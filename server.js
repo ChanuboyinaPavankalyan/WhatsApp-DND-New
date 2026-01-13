@@ -80,12 +80,13 @@ app.post('/activity/execute', verifyJwt, (req, res) => {
 });
 
 /* -------------------- Lifecycle Endpoints -------------------- */
-app.post('/activity/save', verifyJwt, (req, res) => res.sendStatus(200));
-app.post('/activity/validate', verifyJwt, (req, res) => res.sendStatus(200));
-app.post('/activity/publish', verifyJwt, (req, res) => res.sendStatus(200));
-app.post('/activity/stop', verifyJwt, (req, res) => res.sendStatus(200));
-
+// Lifecycle endpoints
+app.post('/activity/save', (req, res) => res.status(200).json({ status: 'ok' }));
+app.post('/activity/validate', (req, res) => res.status(200).json({ status: 'ok' }));
+app.post('/activity/publish', (req, res) => res.status(200).json({ status: 'ok' }));
+app.post('/activity/stop', (req, res) => res.status(200).json({ status: 'ok' }));
 /* -------------------- Start Server -------------------- */
 app.listen(PORT, () => {
   console.log(`🚀 Daytime Window Check Activity running on port ${PORT}`);
 });
+
