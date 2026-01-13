@@ -36,23 +36,23 @@
   "configurationArguments": {
     "save": {
       "url": "https://customactivity003-production.up.railway.app/activity/save",
-      "format": "json",
-      "useJwt": true
+      "verb": "POST",
+      "format": "json"
     },
     "publish": {
       "url": "https://customactivity003-production.up.railway.app/activity/publish",
-      "format": "json",
-      "useJwt": true
+      "verb": "POST",
+      "format": "json"
     },
     "validate": {
       "url": "https://customactivity003-production.up.railway.app/activity/validate",
-      "format": "json",
-      "useJwt": true
+      "verb": "POST",
+      "format": "json"
     },
     "stop": {
       "url": "https://customactivity003-production.up.railway.app/activity/stop",
-      "format": "json",
-      "useJwt": true
+      "verb": "POST",
+      "format": "json"
     }
   },
 
@@ -96,5 +96,6 @@
     }
   }
 }
+
 
 
