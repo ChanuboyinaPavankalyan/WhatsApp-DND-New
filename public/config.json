@@ -2,7 +2,7 @@
   "workflowApiVersion": "1.1",
   "type": "REST",
   "metaData": {
-    "icon": "https://daytime-window-check.vercel.app/icon.png",
+    "icon": "https://customactivity003-production.up.railway.app/icon.png",
     "category": "custom"
   },
   "applicationExtensionKey": "aethereus.daytime.window.check",
@@ -15,22 +15,14 @@
   "arguments": {
     "execute": {
       "inArguments": [
-        {
-          "subscriberKey": "{{Contact.Key}}"
-        },
-        {
-          "country": "{{Activity.country}}"
-        }
+        { "subscriberKey": "{{Contact.Key}}" },
+        { "country": "{{Contact.Country}}" }
       ],
       "outArguments": [
-        {
-          "isWithinWindow": ""
-        },
-        {
-          "currentHour": ""
-        }
+        { "isWithinWindow": "" },
+        { "currentHour": "" }
       ],
-      "url": "https://daytime-window-check.vercel.app/activity/execute",
+      "url": "https://customactivity003-production.up.railway.app/activity/execute",
       "verb": "POST",
       "format": "json",
       "useJwt": true,
@@ -41,67 +33,16 @@
     }
   },
   "configurationArguments": {
-    "save": {
-      "url": "https://daytime-window-check.vercel.app/activity/save",
-      "verb": "POST",
-      "format": "json",
-      "useJwt": true
-    },
-    "publish": {
-      "url": "https://daytime-window-check.vercel.app/activity/publish",
-      "verb": "POST",
-      "format": "json",
-      "useJwt": true
-    },
-    "validate": {
-      "url": "https://daytime-window-check.vercel.app//activity/validate",
-      "verb": "POST",
-      "format": "json",
-      "useJwt": true
-    },
-    "stop": {
-      "url": "https://daytime-window-check.vercel.app/activity/stop",
-      "verb": "POST",
-      "format": "json",
-      "useJwt": true
-    }
+    "save": { "url": "https://customactivity003-production.up.railway.app/activity/save", "verb": "POST", "useJwt": true },
+    "publish": { "url": "https://customactivity003-production.up.railway.app/activity/publish", "verb": "POST", "useJwt": true },
+    "validate": { "url": "https://customactivity003-production.up.railway.app/activity/validate", "verb": "POST", "useJwt": true },
+    "stop": { "url": "https://customactivity003-production.up.railway.app/activity/stop", "verb": "POST", "useJwt": true }
   },
   "userInterfaces": {
     "configModal": {
-      "url": "https://daytime-window-check.vercel.app/index.html",
-      "height": 600,
-      "width": 600
-    }
-  },
-  "schema": {
-    "arguments": {
-      "execute": {
-        "inArguments": [
-          {
-            "name": "subscriberKey",
-            "dataType": "Text",
-            "direction": "in"
-          },
-          {
-            "name": "country",
-            "dataType": "Text",
-            "direction": "in"
-          }
-        ],
-        "outArguments": [
-          {
-            "name": "isWithinWindow",
-            "dataType": "Boolean",
-            "direction": "out"
-          },
-          {
-            "name": "currentHour",
-            "dataType": "Number",
-            "direction": "out"
-          }
-        ]
-      }
+      "url": "https://customactivity003-production.up.railway.app/index.html",
+      "height": 300,
+      "width": 400
     }
   }
-
 }
