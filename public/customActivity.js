@@ -4,9 +4,7 @@ window.onload = function () {
 
   connection.trigger("ready");
 
-  connection.on("initActivity", function (data) {
-    payload = data || {};
-  });
+  connection.on("initActivity", data => payload = data || {});
 
   connection.on("clickedNext", function () {
     payload.arguments = payload.arguments || {};
@@ -17,7 +15,7 @@ window.onload = function () {
     ];
 
     payload.metaData.isConfigured = true;
-    payload.metaData.label = "Auto Country Window Check";
+    payload.metaData.label = "Auto Country Window";
     payload.name = "Daytime Window Check";
 
     connection.trigger("updateActivity", payload);
