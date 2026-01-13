@@ -2,30 +2,33 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const path = require('path');
-const { DateTime } = require('luxon');
 const jwt = require('jsonwebtoken');
+const { DateTime } = require('luxon');
 require('dotenv').config();
 
 const app = express();
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 3000;
 
-/* ------------------ Middleware ------------------ */
+/* -------------------- Middleware -------------------- */
 app.use(cors());
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 
-/* ------------------ JWT ------------------ */
+/* -------------------- JWT Validation -------------------- */
 function verifyJwt(req, res, next) {
   try {
     const token = req.headers.authorization?.split(' ')[1];
+    if (!token) throw new Error('Missing JWT');
     jwt.verify(token, process.env.JWT_SECRET);
     next();
-  } catch (e) {
+  } catch (err) {
+    console.error('JWT error:', err.message);
     return res.status(401).send('Invalid JWT');
   }
 }
 
-/* ------------------ Timezone Map ------------------ */
+/* -------------------- Timezone Logic -------------------- */
 const countryTimezones = {
   india: 'Asia/Kolkata',
   germany: 'Europe/Berlin',
@@ -34,9 +37,11 @@ const countryTimezones = {
   slovakia: 'Europe/Bratislava'
 };
 
-function evaluate(country) {
-  const tz = countryTimezones[country?.toLowerCase()];
-  if (!tz) return { isWithinWindow: false, currentHour: null };
+function evaluateDaytimeWindow(country) {
+  if (!country) return { isWithinWindow: false };
+
+  const tz = countryTimezones[country.toLowerCase()];
+  if (!tz) return { isWithinWindow: false };
 
   const now = DateTime.now().setZone(tz);
   return {
@@ -45,29 +50,42 @@ function evaluate(country) {
   };
 }
 
-/* ------------------ Root ------------------ */
+/* -------------------- Deduplication -------------------- */
+const executionCache = new Set();
+
+/* -------------------- Static / Health -------------------- */
 app.get('/', (req, res) => res.sendFile(path.join(__dirname, 'public/index.html')));
+app.get('/icon.png', (req, res) => res.sendFile(path.join(__dirname, 'public/icon.png')));
+app.get('/health', (req, res) => res.send('OK'));
+
 app.get('/.well-known/journeybuilder/config.json', (req, res) =>
   res.sendFile(path.join(__dirname, 'public/config.json'))
 );
 
-/* ------------------ Execute ------------------ */
-const dedupe = new Set();
+/* -------------------- Execute Endpoint -------------------- */
 app.post('/activity/execute', verifyJwt, (req, res) => {
-  const key = req.body.activityId + ':' + req.body.definitionInstanceId;
-  if (dedupe.has(key)) return res.sendStatus(200);
-  dedupe.add(key);
+  const dedupeKey = req.body.activityId + ':' + req.body.definitionInstanceId;
+  if (executionCache.has(dedupeKey)) return res.sendStatus(200);
+  executionCache.add(dedupeKey);
 
   const inArgs = Object.assign({}, ...(req.body.inArguments || []));
-  const result = evaluate(inArgs.country);
+  const result = evaluateDaytimeWindow(inArgs.country);
 
-  res.json([{ isWithinWindow: result.isWithinWindow, currentHour: result.currentHour }]);
+  return res.status(200).json([
+    {
+      isWithinWindow: result.isWithinWindow,
+      currentHour: result.currentHour
+    }
+  ]);
 });
 
-/* ------------------ Lifecycle ------------------ */
+/* -------------------- Lifecycle Endpoints -------------------- */
 app.post('/activity/save', verifyJwt, (req, res) => res.sendStatus(200));
 app.post('/activity/validate', verifyJwt, (req, res) => res.sendStatus(200));
 app.post('/activity/publish', verifyJwt, (req, res) => res.sendStatus(200));
 app.post('/activity/stop', verifyJwt, (req, res) => res.sendStatus(200));
 
-app.listen(PORT, () => console.log('🚀 Activity running'));
+/* -------------------- Start Server -------------------- */
+app.listen(PORT, () => {
+  console.log(`🚀 Daytime Window Check Activity running on port ${PORT}`);
+});
