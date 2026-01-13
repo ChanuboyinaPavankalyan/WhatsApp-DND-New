@@ -10,12 +10,11 @@ window.onload = function () {
     payload.arguments = payload.arguments || {};
     payload.arguments.execute = payload.arguments.execute || {};
 
-    payload.arguments.execute.inArguments = [
-      { country: "{{Contact.Attribute.EntrySource.Country}}" }
-    ];
+    // IMPORTANT: Leave inArguments empty — Journey will inject DE binding itself
+    payload.arguments.execute.inArguments = [];
 
     payload.metaData.isConfigured = true;
-    payload.metaData.label = "Auto Country Window";
+    payload.metaData.label = "Daytime Window Check";
     payload.name = "Daytime Window Check";
 
     connection.trigger("updateActivity", payload);
