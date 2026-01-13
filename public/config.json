@@ -8,17 +8,13 @@
   "lang": {
     "en-US": {
       "name": "Daytime Window Check",
-      "description": "Checks whether contact is in allowed daytime sending window."
+      "description": "Validates whether contact is within allowed daytime sending window."
     }
   },
   "arguments": {
     "execute": {
       "inArguments": [
-        { "country": "" }
-      ],
-      "outArguments": [
-        { "isWithinWindow": "" },
-        { "currentHour": "" }
+        { "country": "{{Event.EventKey.Country}}" }
       ],
       "url": "https://customactivity003-production.up.railway.app/activity/execute",
       "verb": "POST",
@@ -31,10 +27,30 @@
     }
   },
   "configurationArguments": {
-    "save": { "url": "https://customactivity003-production.up.railway.app/activity/save", "useJwt": true },
-    "publish": { "url": "https://customactivity003-production.up.railway.app/activity/publish", "useJwt": true },
-    "validate": { "url": "https://customactivity003-production.up.railway.app/activity/validate", "useJwt": true },
-    "stop": { "url": "https://customactivity003-production.up.railway.app/activity/stop", "useJwt": true }
+    "save": {
+      "url": "https://customactivity003-production.up.railway.app/activity/save",
+      "verb": "POST",
+      "format": "json",
+      "useJwt": true
+    },
+    "publish": {
+      "url": "https://customactivity003-production.up.railway.app/activity/publish",
+      "verb": "POST",
+      "format": "json",
+      "useJwt": true
+    },
+    "validate": {
+      "url": "https://customactivity003-production.up.railway.app/activity/validate",
+      "verb": "POST",
+      "format": "json",
+      "useJwt": true
+    },
+    "stop": {
+      "url": "https://customactivity003-production.up.railway.app/activity/stop",
+      "verb": "POST",
+      "format": "json",
+      "useJwt": true
+    }
   },
   "userInterfaces": {
     "configModal": {
@@ -59,14 +75,12 @@
           {
             "isWithinWindow": {
               "dataType": "Boolean",
-              "isNullable": false,
               "direction": "out"
             }
           },
           {
             "currentHour": {
               "dataType": "Number",
-              "isNullable": false,
               "direction": "out"
             }
           }
