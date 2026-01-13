@@ -44,5 +44,36 @@
       "height": 300,
       "width": 400
     }
+  },
+
+  "schema": {
+    "arguments": {
+      "execute": {
+        "inArguments": [
+          {
+            "name": "subscriberKey",
+            "dataType": "Text",
+            "direction": "in"
+          },
+          {
+            "name": "country",
+            "dataType": "Text",
+            "direction": "in"
+          }
+        ],
+        "outArguments": [
+          {
+            "name": "isWithinWindow",
+            "dataType": "Boolean",
+            "direction": "out"
+          },
+          {
+            "name": "currentHour",
+            "dataType": "Number",
+            "direction": "out"
+          }
+        ]
+      }
+    }
   }
 }
