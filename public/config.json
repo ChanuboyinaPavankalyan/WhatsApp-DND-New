@@ -1,7 +1,7 @@
 {
   "workflowApiVersion": "1.1",
   "metaData": {
-    "icon": "https://customactivity003-production.up.railway.app/icon.png",
+    "icon": "https://daytime-window-check.vercel.app/icon.png",
     "category": "custom"
   },
   "type": "REST",
@@ -13,44 +13,49 @@
     }
   },
 
-  "arguments": {
-    "execute": {
- "inArguments":[{"country":"Germany"}],
-      "outArguments": [
-        { "isWithinWindow": "" },
-        { "currentHour": "" }
-      ],
-      "url": "https://customactivity003-production.up.railway.app/activity/execute",
-      "verb": "POST",
-      "body": "",
-      "header": "",
-      "format": "json",
-      "useJwt": true,
-      "timeout": 20000,
-      "retryCount": 3,
-      "retryDelay": 1000,
-      "concurrentRequests": 6
-    }
-  },
+"arguments": {
+  "execute": {
+    "inArguments": [
+      {
+        "country": "{{Contact.Attribute.Default.Country}}"
+      }
+    ],
+    "outArguments": [
+      { "isWithinWindow": "" },
+      { "currentHour": "" }
+    ],
+    "url": "https://daytime-window-check.vercel.app/activity/execute",
+    "verb": "POST",
+    "body": {},
+    "header": {},
+    "format": "json",
+    "useJwt": true,
+    "timeout": 20000,
+    "retryCount": 3,
+    "retryDelay": 1000,
+    "concurrentRequests": 6
+  }
+},
+
 
   "configurationArguments": {
     "save": {
-      "url": "https://customactivity003-production.up.railway.app/activity/save",
+      "url": "https://daytime-window-check.vercel.app/activity/save",
       "verb": "POST",
       "format": "json"
     },
     "publish": {
-      "url": "https://customactivity003-production.up.railway.app/activity/publish",
+      "url": "https://daytime-window-check.vercel.app/activity/publish",
       "verb": "POST",
       "format": "json"
     },
     "validate": {
-      "url": "https://customactivity003-production.up.railway.app/activity/validate",
+      "url": "https://daytime-window-check.vercel.app/activity/validate",
       "verb": "POST",
       "format": "json"
     },
     "stop": {
-      "url": "https://customactivity003-production.up.railway.app/activity/stop",
+      "url": "https://daytime-window-check.vercel.app/activity/stop",
       "verb": "POST",
       "format": "json"
     }
@@ -58,7 +63,7 @@
 
   "userInterfaces": {
     "configModal": {
-      "url": "https://customactivity003-production.up.railway.app/index.html",
+      "url": "https://daytime-window-check.vercel.app/index.html",
       "height": 450,
       "width": 450
     }
@@ -96,6 +101,10 @@
     }
   }
 }
+
+
+
+
 
 
 

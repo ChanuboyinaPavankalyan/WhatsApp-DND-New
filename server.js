@@ -2,7 +2,6 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const path = require('path');
-const jwt = require('jsonwebtoken');
 const { DateTime } = require('luxon');
 require('dotenv').config();
 
@@ -15,17 +14,9 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 
-/* -------------------- JWT Validation -------------------- */
-function verifyJwt(req, res, next) {
-  try {
-    const token = req.headers.authorization?.split(' ')[1];
-    if (!token) throw new Error('Missing JWT');
-    jwt.verify(token, process.env.JWT_SECRET);
-    next();
-  } catch (err) {
-    console.error('JWT error:', err.message);
-    return res.status(401).send('Invalid JWT');
-  }
+/* -------------------- Allow All (NO JWT) -------------------- */
+function allowAll(req, res, next) {
+  next();
 }
 
 /* -------------------- Timezone Logic -------------------- */
@@ -38,10 +29,14 @@ const countryTimezones = {
 };
 
 function evaluateDaytimeWindow(country) {
-  if (!country) return { isWithinWindow: false };
+  if (!country) {
+    return { isWithinWindow: false, currentHour: null };
+  }
 
   const tz = countryTimezones[country.toLowerCase()];
-  if (!tz) return { isWithinWindow: false };
+  if (!tz) {
+    return { isWithinWindow: false, currentHour: null };
+  }
 
   const now = DateTime.now().setZone(tz);
   return {
@@ -54,8 +49,14 @@ function evaluateDaytimeWindow(country) {
 const executionCache = new Set();
 
 /* -------------------- Static / Health -------------------- */
-app.get('/', (req, res) => res.sendFile(path.join(__dirname, 'public/index.html')));
-app.get('/icon.png', (req, res) => res.sendFile(path.join(__dirname, 'public/icon.png')));
+app.get('/', (req, res) =>
+  res.sendFile(path.join(__dirname, 'public/index.html'))
+);
+
+app.get('/icon.png', (req, res) =>
+  res.sendFile(path.join(__dirname, 'public/icon.png'))
+);
+
 app.get('/health', (req, res) => res.send('OK'));
 
 app.get('/.well-known/journeybuilder/config.json', (req, res) =>
@@ -63,9 +64,11 @@ app.get('/.well-known/journeybuilder/config.json', (req, res) =>
 );
 
 /* -------------------- Execute Endpoint -------------------- */
-app.post('/activity/execute', verifyJwt, (req, res) => {
-  const dedupeKey = req.body.activityId + ':' + req.body.definitionInstanceId;
-  if (executionCache.has(dedupeKey)) return res.sendStatus(200);
+app.post('/activity/execute', allowAll, (req, res) => {
+  const dedupeKey = `${req.body.activityId}:${req.body.definitionInstanceId}`;
+  if (executionCache.has(dedupeKey)) {
+    return res.sendStatus(200);
+  }
   executionCache.add(dedupeKey);
 
   const inArgs = Object.assign({}, ...(req.body.inArguments || []));
@@ -80,13 +83,12 @@ app.post('/activity/execute', verifyJwt, (req, res) => {
 });
 
 /* -------------------- Lifecycle Endpoints -------------------- */
-// Lifecycle endpoints
-app.post('/activity/save', (req, res) => res.status(200).json({ status: 'ok' }));
-app.post('/activity/validate', (req, res) => res.status(200).json({ status: 'ok' }));
-app.post('/activity/publish', (req, res) => res.status(200).json({ status: 'ok' }));
-app.post('/activity/stop', (req, res) => res.status(200).json({ status: 'ok' }));
+app.post('/activity/save', allowAll, (req, res) => res.sendStatus(200));
+app.post('/activity/validate', allowAll, (req, res) => res.sendStatus(200));
+app.post('/activity/publish', allowAll, (req, res) => res.sendStatus(200));
+app.post('/activity/stop', allowAll, (req, res) => res.sendStatus(200));
+
 /* -------------------- Start Server -------------------- */
 app.listen(PORT, () => {
-  console.log(`🚀 Daytime Window Check Activity running on port ${PORT}`);
+  console.log(`🚀 Daytime Window Check running on port ${PORT}`);
 });
-
