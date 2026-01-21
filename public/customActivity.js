@@ -14,8 +14,8 @@ window.onload = function () {
     payload.arguments.execute.inArguments = [];
 
     payload.metaData.isConfigured = true;
-    payload.metaData.label = "Daytime Window Check";
-    payload.name = "Daytime Window Check";
+    payload.metaData.label = "Whatsapp DND Check";
+    payload.name = "Whatsapp DND Check";
 
     connection.trigger("updateActivity", payload);
   });
